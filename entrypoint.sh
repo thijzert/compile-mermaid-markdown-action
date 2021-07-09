@@ -8,14 +8,6 @@
 # Usage:
 #   > entrypoint.sh <output path> [<file1> [<file2> ...]]
 
-# For *.mermaid or *.mmd files, it is compiled and a *.mermaid.${output_file_type} is created at the location
-
-# For *.md files:
-#   1) finds all of the mermaid markup in the file
-#   2) creates intermediate files in the output directory *.md.<n>.mermaid where n represents the nth block found
-#   3) compile the mermaid to the directory *.md.<n>.mermaid.${output_file_type}
-#   4) place a reference to the compiled image in the markdown
-
 set -euo pipefail
 
 # Normalize some environment variables (default values)
@@ -42,9 +34,8 @@ function main {
 
       if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
 
-        output_path="${in_file_dirname}"
         output_file="$(dasherize_name ${in_file_basename}).${output_file_type}"
-        c_mermaid "${in_file}" "${output_path}/${output_file}"
+        c_mermaid "${in_file}" "${outpath}/${output_file}"
 
       elif is_path_markdown "${in_file_basename}" "${MD_SUFFIXES-.md}"; then
 
