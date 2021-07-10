@@ -34,7 +34,7 @@ function main {
 
       if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
 
-        output_file="$(dasherize_name ${in_file_basename}).${output_file_type}"
+        output_file="$(dasherize_name "${in_file}").${output_file_type}"
         c_mermaid "${in_file}" "${outpath}/${output_file}"
 
       elif is_path_markdown "${in_file_basename}" "${MD_SUFFIXES-.md}"; then
