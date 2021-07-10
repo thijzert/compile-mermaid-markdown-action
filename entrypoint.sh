@@ -47,6 +47,8 @@ function main {
         die "*.${in_file_type} is not a recognized type.  Check that your Github action is submitting a valid file to this entrypoint."
 
       fi
+    elif [[ -d "${in_file}" ]]; then
+      true
     else
       printf "Removing output file for: %s\n" "${in_file}"
 
@@ -57,11 +59,12 @@ function main {
 
       elif is_path_markdown "${in_file_basename}" "${MD_SUFFIXES-.md}"; then
 
+        # This file was the output file, and it's already been removed
         true
 
       else
 
-        die "*.${in_file_type} is not a recognized type.  Check that your Github action is submitting a valid file to this entrypoint."
+        echo "*.${in_file_type} is not a recognized type.  Skipping."
 
       fi
     fi
