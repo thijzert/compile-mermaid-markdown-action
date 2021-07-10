@@ -25,13 +25,12 @@ function main {
   shift $(( OPTIND - 1 ))
 
   for in_file in $@; do
+    in_file_dirname=$(dirname "${in_file}")
+    in_file_basename=$(basename "${in_file}")
     in_file_type="${in_file_basename##*.}"
 
     if [[ -f "${in_file}" ]]; then
       printf "Attempting compile of: %s\n" "${in_file}"
-
-      in_file_dirname=$(dirname "${in_file}")
-      in_file_basename=$(basename "${in_file}")
 
       if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
 
@@ -50,9 +49,6 @@ function main {
       fi
     else
       printf "Removing output file for: %s\n" "${in_file}"
-
-      in_file_dirname=$(dirname "${in_file}")
-      in_file_basename=$(basename "${in_file}")
 
       if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
 
