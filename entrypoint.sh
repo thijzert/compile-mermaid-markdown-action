@@ -25,12 +25,13 @@ function main {
   shift $(( OPTIND - 1 ))
 
   for in_file in $@; do
+    in_file_type="${in_file_basename##*.}"
+
     if [[ -f "${in_file}" ]]; then
       printf "Attempting compile of: %s\n" "${in_file}"
 
       in_file_dirname=$(dirname "${in_file}")
       in_file_basename=$(basename "${in_file}")
-      in_file_type="${in_file_basename##*.}"
 
       if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
 
@@ -41,6 +42,26 @@ function main {
 
         output_path="${outpath}"
         c_md_mermaid "${in_file}" "${output_path}"
+
+      else
+
+        die "*.${in_file_type} is not a recognized type.  Check that your Github action is submitting a valid file to this entrypoint."
+
+      fi
+    else
+      printf "Removing output file for: %s\n" "${in_file}"
+
+      in_file_dirname=$(dirname "${in_file}")
+      in_file_basename=$(basename "${in_file}")
+
+      if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
+
+        output_file="$(dasherize_name "${in_file}").${output_file_type}"
+        rm -f "${outpath}/${output_file}"
+
+      elif is_path_markdown "${in_file_basename}" "${MD_SUFFIXES-.md}"; then
+
+        true
 
       else
 
