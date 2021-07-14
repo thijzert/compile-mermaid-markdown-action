@@ -14,7 +14,7 @@ set -euo pipefail
 MMDC_EXTRA_ARGS="${MMDC_EXTRA_ARGS:-}"
 
 function main {
-  printf "Using MMDC version %s\n" "$(/node_modules/.bin/mmdc -V)"
+  printf "Using MMDC version %s\n" "$(/home/mermaidcli/node_modules/.bin/mmdc -V)"
 
   outpath="${1}"
   mkdir -p "${outpath}"
@@ -92,7 +92,7 @@ function c_mermaid {
   printf "Compiling: %s\n" "${1}"
   printf "Output to: %s\n" "${2}"
   printf "Extra args: %s\n" "${MMDC_EXTRA_ARGS}"
-  /node_modules/.bin/mmdc -c /mmdc/mermaid-config.json -p /mmdc/puppeteer-config.json -i "${1}" -o "${2}" ${MMDC_EXTRA_ARGS}
+  /home/mermaidcli/node_modules/.bin/mmdc -c /mmdc/mermaid-config.json -p /mmdc/puppeteer-config.json -i "${1}" -o "${2}" ${MMDC_EXTRA_ARGS}
   confirm_creation "${2}"
 }
 
